@@ -1,0 +1,3 @@
+---
+# tasks file for freebsd-jailed-mariadb
+- include: iocage.yml
