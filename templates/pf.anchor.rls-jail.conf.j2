@@ -1,12 +1,6 @@
-# allow outgoing SSH from jump host to host's external ip
-# which will be redirect to host's internal ip
-pass out quick log on {{ jail_net_if }} proto tcp \
+# allow incoming connections from jail host
+pass log on {{ jail_net_if }}  proto tcp \
   from {{ jail_net_ip }} \
-  to {{ host_net_ext_ip }} port {{ host_sshd_port }} \
+  to {{ jail_net_ip }} port 3306 \
   flags S/SA keep state
-
-# Disable sshd to external interface
-block log proto tcp \
-  from any \
-  to {{ host_net_ext_ip }} port {{ host_sshd_port }}
 

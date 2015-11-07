@@ -9,7 +9,7 @@ DROP DATABASE test;
 DELETE FROM mysql.db WHERE db='test' or db='test\\_%';
 
 -- allow root access from jail host
-INSERT INTO mysql.user (user, host, password) values('root', '{{ host_net_int_ip }}', '');
+INSERT INTO mysql.user (user, host, password) values('root', '{{ jail_net_ip }}', '');
 
 -- set root password
 UPDATE mysql.user SET password=PASSWORD('{{ mariadb_root_passwd }}') WHERE user='root';

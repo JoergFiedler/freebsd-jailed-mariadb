@@ -10,7 +10,7 @@
               regexp='^mysql_enable='
               line='mysql_enable=\"YES\"'
 
-- name: Make sure that jail is started
+- name: Start jail
   command: /usr/local/sbin/iocage start {{ jail_uuid.stdout }}
   when: jail_created|changed
 
