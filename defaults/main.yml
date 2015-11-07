@@ -1,2 +1,3 @@
 ---
 # defaults file for freebsd-jailed-mariadb
+mariadb_root_passwd: 'passwd'

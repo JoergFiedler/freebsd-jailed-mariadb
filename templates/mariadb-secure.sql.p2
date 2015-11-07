@@ -1,0 +1,17 @@
+-- remove guest access
+DELETE FROM mysql.user WHERE user='';
+
+-- remove remote access
+DELETE FROM mysql.user WHERE user='root' and host NOT in ('localhost', '127.0.0.1', '{{ jail_hostname }}', '::1');
+
+-- drop test db
+DROP DATABASE test;
+DELETE FROM mysql.db WHERE db='test' or db='test\\_%';
+
+-- allow root access from jail host
+INSERT INTO mysql.user (user, host, password) values('root', '{{ host_net_int_ip }}', '');
+
+-- set root password
+UPDATE mysql.user SET password=PASSWORD('{{ mariadb_root_passwd }}') WHERE user='root';
+
+FLUSH PRIVILEGES;

@@ -5,7 +5,35 @@
          chroot={{ jail_home.stdout }}
 
 - name: Enable MariaDb service
-  lineinfile: dest=/etc/rc.conf
+  lineinfile: dest={{ jail_home.stdout }}/etc/rc.conf
               state=present
               regexp='^mysql_enable='
               line='mysql_enable=\"YES\"'
+
+- name: Make sure that jail is started
+  command: /usr/local/sbin/iocage start {{ jail_uuid.stdout }}
+  when: jail_created|changed
+
+- name: Check if database is secured
+  command: /usr/local/sbin/iocage exec {{ jail_uuid.stdout }} \
+           /usr/local/bin/mysql -e 'use test'
+  register: secure_check
+  changed_when: false
+  ignore_errors: true
+
+- name: Copy MariaDB secure script to remote host
+  template: src=mariadb-secure.sql.p2
+            dest=/tmp/mariadb-secure.sql
+  changed_when: false
+  when: secure_check|success
+
+- name: Execute secure DB server script
+  shell: /usr/local/sbin/iocage exec {{ jail_uuid.stdout }} \
+           /usr/local/bin/mysql mysql < /tmp/mariadb-secure.sql
+  when: secure_check|success
+
+- name: Delete secure script from remote host
+  file: path=/tmp/mariadb-secure.sql
+        state=absent
+  changed_when: false
+  when: secure_check|success
