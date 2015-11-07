@@ -1,3 +1,7 @@
 ---
 # tasks file for freebsd-jailed-mariadb
+- include: net.yml
 - include: iocage.yml
+- include: mariadb.yml
+- include: ssmtp.yml
+- include: syslogd.yml

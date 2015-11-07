@@ -1,0 +1,11 @@
+---
+- name: Install MariaDB binary package
+  pkgng: name=mariadb100-server
+         state=present
+         chroot={{ jail_home.stdout }}
+
+- name: Enable MariaDb service
+  lineinfile: dest=/etc/rc.conf
+              state=present
+              regexp='^mysql_enable='
+              line='mysql_enable=\"YES\"'
