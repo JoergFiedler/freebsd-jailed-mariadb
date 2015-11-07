@@ -1,4 +1,18 @@
 ---
+- name: Ensure that mysql data dir exists
+  file: path={{ jail_home.stdout }}{{ mariadb_data_dir }}
+        state=directory
+
+- name: Ensure that mysql home on host exists
+  file: path={{ host_mariadb_home }}
+        state=directory
+        owner=88 group=88 mode=0750
+
+- name: Configure jail to mount file system from host
+  lineinfile: dest={{ jail_home.stdout }}/../fstab
+              state=present
+              line='{{ host_mariadb_home }} {{ jail_home.stdout }}{{ mariadb_data_dir }} nullfs rw'
+
 - name: Install MariaDB binary package
   pkgng: name=mariadb100-server
          state=present
