@@ -29,6 +29,13 @@
               regexp='^mysql_enable='
               line='mysql_enable=\"YES\"'
 
+- name: Copy MariaDb config file
+  template: dest={{ host_mariadb_home }}/my.cnf
+            src=my.cnf.j2
+            owner=88 group=88 mode=0640
+  notify:
+  - Restart {{ jail_name }} MariaDB
+
 - name: Start jail
   command: /usr/local/sbin/iocage start {{ jail_uuid.stdout }}
   when: jail_created|changed
@@ -41,7 +48,7 @@
   ignore_errors: true
 
 - name: Copy MariaDB secure script to remote host
-  template: src=mariadb-secure.sql.p2
+  template: src=mariadb-secure.sql.j2
             dest=/tmp/mariadb-secure.sql
   changed_when: false
   when: secure_check|success
