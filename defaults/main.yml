@@ -2,5 +2,6 @@
 # defaults file for freebsd-jailed-mariadb
 mariadb_root_passwd: 'passwd'
 mariadb_data_dir: '/var/db/mysql'
-host_mariadb_home: '/home/mysql'
+mariadb_zfs_dataset: 'tank/mariadb'
+host_mariadb_home: '/home/mariadb'
 

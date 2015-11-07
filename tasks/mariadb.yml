@@ -3,6 +3,11 @@
   file: path={{ jail_home.stdout }}{{ mariadb_data_dir }}
         state=directory
 
+- name: Create ZFS data set
+  zfs:  name={{ mariadb_zfs_dataset }}
+        state=present
+        mountpoint={{ host_mariadb_home }}
+
 - name: Ensure that mysql home on host exists
   file: path={{ host_mariadb_home }}
         state=directory
