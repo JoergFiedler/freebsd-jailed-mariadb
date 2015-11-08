@@ -79,6 +79,13 @@ Dependencies
 Example Playbook
 ----------------
 
+    - { role: /Users/john/projects/freebsd-jailed-mariadb,
+        tags: ['mariadb'],
+        use_ssmtp: true,
+        use_syslogd_server: true,
+        jail_name: 'mariadb',
+        jail_net_ip: '10.1.0.4' }¬
+
 License
 -------
 
