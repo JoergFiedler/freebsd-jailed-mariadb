@@ -1,7 +1,14 @@
 ---
 # defaults file for freebsd-jailed-mariadb
+jail_name: '{{ jail_net_ip }}'
+jail_domain: 'darkcity'
+jail_net_if: 'lo0'
+
 mariadb_root_passwd: 'passwd'
 mariadb_data_dir: '/var/db/mysql'
 mariadb_zfs_dataset: 'tank/mariadb'
+
 host_mariadb_home: '/home/mariadb'
 
+ssmtp_forward_address: 'freebsd-ansible-demo@maildrop.cc'
+ssmtp_forward_mailhub: 'mail.maildrop.cc'

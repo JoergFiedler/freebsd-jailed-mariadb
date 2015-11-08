@@ -1,2 +1,3 @@
 ---
 # vars file for freebsd-jailed-mariadb
+jail_hostname: {{ jail_name }}.{{ jail_domain }}
