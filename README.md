@@ -41,7 +41,7 @@ The root password that should be used to secure the MariaDB installation. Defaul
 
 The directory in which MariaDB should store is files. Default: `'/var/db/mysql'`.
 
-##### mariadb_zfs_dataset
+##### host_mariadb_zfs_dataset
 
 The ZFS dataset to use for MariaDB. If it does not exist it will be created. Make sure the pool already exists. Default: `'tank/mariadb'`.
 

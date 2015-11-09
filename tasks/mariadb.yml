@@ -4,7 +4,7 @@
         state=directory
 
 - name: Create ZFS data set
-  zfs:  name={{ mariadb_zfs_dataset }}
+  zfs:  name={{ host_mariadb_zfs_dataset }}
         state=present
         mountpoint={{ host_mariadb_home }}
 
