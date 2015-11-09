@@ -1,3 +1,6 @@
 [mysqld]
 bind-address    = {{ jail_net_ip }}
 
+[mysqld_safe]
+syslog
+
