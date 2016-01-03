@@ -1,6 +1,8 @@
 [mysqld]
-bind-address    = {{ jail_net_ip }}
+bind-address              = {{ jail_net_ip }}
+innodb_data_home_dir      = {{ mariadb_home }}/ibdata
+innodb_log_group_home_dir = {{ mariadb_home }}/iblog
+skip-innodb_doublewrite
 
 [mysqld_safe]
 syslog
-

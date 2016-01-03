@@ -1,22 +1,34 @@
 ---
-- name: Ensure that mysql data dir exists
-  file: path={{ jail_home.stdout }}{{ mariadb_data_dir }}
-        state=directory
-
-- name: Create ZFS data set
-  zfs:  name={{ host_mariadb_zfs_dataset }}
+- name: Create ZFS data sets
+  zfs:  name={{ host_mariadb_zfs_dataset }}{{ item.path }}
         state=present
-        mountpoint={{ host_mariadb_home }}
+        atime={{ item.atime }}
+        primarycache={{ item.primarycache }}
+        logbias={{ item.logbias }}
+        recordsize={{ item.recordsize }}
+        mountpoint={{ host_mariadb_home }}{{ item.path }}
+  with_items:
+  - '{{ mariadb_datasets }}'
 
-- name: Ensure that mysql home on host exists
-  file: path={{ host_mariadb_home }}
+- name: Ensure mysql user permissions
+  file: path={{ host_mariadb_home }}{{ item.path }}
         state=directory
         owner=88 group=88 mode=0750
+  with_items:
+  - '{{ mariadb_datasets }}'
+
+- name: Ensure that mariadb directories exists within jail
+  file: path={{ jail_home.stdout }}{{ mariadb_home }}{{ item.path }}
+        state=directory
+  with_items:
+  - '{{ mariadb_datasets }}'
 
 - name: Configure jail to mount file system from host
   lineinfile: dest={{ jail_home.stdout }}/../fstab
               state=present
-              line='{{ host_mariadb_home }} {{ jail_home.stdout }}{{ mariadb_data_dir }} nullfs rw'
+              line='{{ host_mariadb_home }}{{ item.path }} {{ jail_home.stdout }}{{ mariadb_home }}{{ item.path }} nullfs rw'
+  with_items:
+  - '{{ mariadb_datasets }}'
 
 - name: Install MariaDB binary package
   pkgng: name=mariadb100-server
@@ -26,11 +38,20 @@
 - name: Enable MariaDb service
   lineinfile: dest={{ jail_home.stdout }}/etc/rc.conf
               state=present
-              regexp='^mysql_enable='
-              line='mysql_enable=\"YES\"'
+              regexp={{ item.regex }}
+              line={{ item.line }}
+  with_items:
+  - { regex: '^mysql_enable=', line: 'mysql_enable=\"YES\"'}
+  - { regex: '^mysql_dbdir=', line: 'mysql_dbdir=\"{{ mariadb_dbdir }}\"'}
+
+- name: Fix mysql_install_db_args
+  lineinfile: dest={{ jail_home.stdout }}/usr/local/etc/rc.d/mysql-server
+              state=present
+              regexp='^mysql_install_db_args='
+              line='mysql_install_db_args=\"--basedir=/usr/local --datadir=${mysql_dbdir} --force --defaults-extra-file=${mysql_optfile}\"'
 
 - name: Copy MariaDb config file
-  template: dest={{ host_mariadb_home }}/my.cnf
+  template: dest={{ host_mariadb_home }}/data/my.cnf
             src=my.cnf.j2
             owner=88 group=88 mode=0640
   notify:

@@ -37,9 +37,9 @@ The domain this jail belongs to. Domain part of the hostname. Default: `'darkcit
 
 The root password that should be used to secure the MariaDB installation. Default: `'passwd'`.
 
-##### mariadb_data_dir
+##### mariadb_home
 
-The directory in which MariaDB should store is files. Default: `'/var/db/mysql'`.
+The directory in which MariaDB should store is files. Default: `'/home/mariadb'`.
 
 ##### host_mariadb_zfs_dataset
 
