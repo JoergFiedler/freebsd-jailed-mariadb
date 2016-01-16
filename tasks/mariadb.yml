@@ -24,9 +24,12 @@
   - '{{ mariadb_datasets }}'
 
 - name: Configure jail to mount file system from host
-  lineinfile: dest={{ jail_home.stdout }}/../fstab
-              state=present
-              line='{{ host_mariadb_home }}{{ item.path }} {{ jail_home.stdout }}{{ mariadb_home }}{{ item.path }} nullfs rw'
+  mount: name={{ jail_home.stdout }}{{ mariadb_home }}{{ item.path }}
+         fstab={{ jail_home.stdout }}/../fstab
+         fstype=nullfs
+         opts=rw
+         src={{ host_mariadb_home }}{{ item.path }}
+         state=present
   with_items:
   - '{{ mariadb_datasets }}'
 
@@ -41,14 +44,14 @@
               regexp={{ item.regex }}
               line={{ item.line }}
   with_items:
-  - { regex: '^mysql_enable=', line: 'mysql_enable=\"YES\"'}
-  - { regex: '^mysql_dbdir=', line: 'mysql_dbdir=\"{{ mariadb_dbdir }}\"'}
+  - { regex: '^mysql_enable=', line: 'mysql_enable="YES"'}
+  - { regex: '^mysql_dbdir=', line: 'mysql_dbdir="{{ mariadb_dbdir }}"'}
 
 - name: Fix mysql_install_db_args
   lineinfile: dest={{ jail_home.stdout }}/usr/local/etc/rc.d/mysql-server
               state=present
               regexp='^mysql_install_db_args='
-              line='mysql_install_db_args=\"--basedir=/usr/local --datadir=${mysql_dbdir} --force --defaults-extra-file=${mysql_optfile}\"'
+              line='mysql_install_db_args="--basedir=/usr/local --datadir=${mysql_dbdir} --force --defaults-extra-file=${mysql_optfile}"'
 
 - name: Copy MariaDb config file
   template: dest={{ host_mariadb_home }}/data/my.cnf
