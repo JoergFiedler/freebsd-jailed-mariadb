@@ -3,6 +3,9 @@ bind-address              = {{ jail_net_ip }}
 innodb_data_home_dir      = {{ mariadb_home }}/ibdata
 innodb_log_group_home_dir = {{ mariadb_home }}/iblog
 skip-innodb_doublewrite
+collation-server          = utf8_unicode_ci
+init-connect              = 'SET NAMES utf8'
+character-set-server      = utf8
 
 [mysqld_safe]
 syslog
