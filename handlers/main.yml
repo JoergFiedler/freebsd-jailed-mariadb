@@ -1,7 +1,4 @@
 ---
-- name: Reload jail s syslogd
-  command: /usr/local/sbin/iocage exec {{ jail_uuid.stdout }} service syslogd reload
-
 - name: Restart jail s MariaDB
   command: /usr/local/sbin/iocage exec {{ jail_uuid.stdout }} service mysql-server restart
   when: not jail_created|changed
