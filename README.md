@@ -49,28 +49,6 @@ The ZFS dataset to use for MariaDB. If it does not exist it will be created. Mak
 
 The directory on the host file system where the ZFS dataset is going to be mounted. Default: `'/home/mariadb'`.
 
-##### ssmtp_forward_address
-
-System mails are forwarded to this address. See [ssmtp man page](https://www.freebsd.org/cgi/man.cgi?query=ssmtp&apropos=0&sektion=0&manpath=FreeBSD+10.2-RELEASE+and+Ports&arch=default&format=html) for further information.
-
-Default: 'freebsd-ansible-demo@maildrop.cc'.
-
-This feature is only active, if the variable `use_ssmtp` is set to any value.
-
-##### ssmtp_forward_mailhub
-
-System mails are forwarded using this mail relay. See [ssmtp man page](https://www.freebsd.org/cgi/man.cgi?query=ssmtp&apropos=0&sektion=0&manpath=FreeBSD+10.2-RELEASE+and+Ports&arch=default&format=html) for further information.
-
-Default: 'mail.maildrop.cc'.
-
-This feature is only active, if the variable `use_ssmtp` is set to any value.
-
-##### syslogd_server
-
-The syslogd server to which all syslog messages are going to be forwarded. No default value.
-
-This feature is only active if the variable `use_syslogd_server` is set to any value.
-
 Dependencies
 ------------
 
