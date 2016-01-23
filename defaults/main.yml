@@ -3,6 +3,6 @@
 mariadb_root_passwd: 'passwd'
 mariadb_home: '/home/mariadb'
 
-host_mariadb_zfs_dataset: 'tank/mariadb'
+host_mariadb_zfs_dataset: 'tank/home/mariadb'
 host_mariadb_home: '/home/mariadb'
 
