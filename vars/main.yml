@@ -2,28 +2,28 @@
 # vars file for freebsd-jailed-mariadb
 mariadb_dbdir: '{{ mariadb_home }}/data'
 mariadb_datasets:
-- { path: '',
-    recordsize: '128k',
-    atime: 'off',
-    primarycache: 'metadata',
-    logbias: 'latency' }
-- { path: '/data',
-    recordsize: '8k',
-    atime: 'off',
-    primarycache: 'metadata',
-    logbias: 'latency' }
-- { path: '/data/mysql',
-    recordsize: '128k',
-    atime: 'off',
-    primarycache: 'metadata',
-    logbias: 'latency' }
-- { path: '/iblog',
-    recordsize: '128k',
-    atime: 'off',
-    primarycache: 'metadata',
-    logbias: 'latency' }
-- { path: '/ibdata',
-    recordsize: '16k',
-    atime: 'off',
-    primarycache: 'metadata',
-    logbias: 'throughput'}
+  - path: ''
+    recordsize: '128k'
+    atime: 'off'
+    primarycache: 'metadata'
+    logbias: 'latency'
+  - path: '/data'
+    recordsize: '8k'
+    atime: 'off'
+    primarycache: 'metadata'
+    logbias: 'latency'
+  - path: '/data/mysql'
+    recordsize: '128k'
+    atime: 'off'
+    primarycache: 'metadata'
+    logbias: 'latency'
+  - path: '/iblog'
+    recordsize: '128k'
+    atime: 'off'
+    primarycache: 'metadata'
+    logbias: 'latency'
+  - path: '/ibdata'
+    recordsize: '16k'
+    atime: 'off'
+    primarycache: 'metadata'
+    logbias: 'throughput'
