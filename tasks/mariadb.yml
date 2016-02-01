@@ -53,6 +53,13 @@
               regexp='^mysql_install_db_args='
               line='mysql_install_db_args="--basedir=/usr/local --datadir=${mysql_dbdir} --force --defaults-extra-file=${mysql_optfile}"'
 
+- name: Fix auth tables check
+  lineinfile:
+    dest: '{{ jail_home.stdout }}/usr/local/etc/rc.d/mysql-server'
+    state: present
+    regexp: '^\s+if \[ ! -d "\$\{mysql_dbdir\}/mysql/." \]; then'
+    line: '        if [ ! -f "${mysql_dbdir}/mysql/user.MYI" ]; then'
+
 - name: Copy MariaDb config file
   template: dest={{ host_mariadb_zfs_dir }}/data/my.cnf
             src=my.cnf.j2
