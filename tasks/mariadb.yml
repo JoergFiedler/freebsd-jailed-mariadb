@@ -6,12 +6,12 @@
         primarycache={{ item.primarycache }}
         logbias={{ item.logbias }}
         recordsize={{ item.recordsize }}
-        mountpoint={{ host_mariadb_home }}{{ item.path }}
+        mountpoint={{ host_mariadb_zfs_dir }}{{ item.path }}
   with_items:
   - '{{ mariadb_datasets }}'
 
 - name: Ensure mysql user permissions
-  file: path={{ host_mariadb_home }}{{ item.path }}
+  file: path={{ host_mariadb_zfs_dir }}{{ item.path }}
         state=directory
         owner=88 group=88 mode=0750
   with_items:
@@ -28,7 +28,7 @@
          fstab={{ jail_home.stdout }}/../fstab
          fstype=nullfs
          opts=rw
-         src={{ host_mariadb_home }}{{ item.path }}
+         src={{ host_mariadb_zfs_dir }}{{ item.path }}
          state=present
   with_items:
   - '{{ mariadb_datasets }}'
@@ -54,7 +54,7 @@
               line='mysql_install_db_args="--basedir=/usr/local --datadir=${mysql_dbdir} --force --defaults-extra-file=${mysql_optfile}"'
 
 - name: Copy MariaDb config file
-  template: dest={{ host_mariadb_home }}/data/my.cnf
+  template: dest={{ host_mariadb_zfs_dir }}/data/my.cnf
             src=my.cnf.j2
             owner=88 group=88 mode=0640
   notify:
@@ -87,3 +87,8 @@
         state=absent
   changed_when: false
   when: secure_check|success
+
+- name: Backup MariaDB with tarsnap
+  template: src=tarsnapper.yml.j2
+            dest=/usr/local/etc/tarsnapper.d/{{ jail_name }}.yml
+  when: tarsnap_keyfile is defined

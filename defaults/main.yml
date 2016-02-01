@@ -4,5 +4,4 @@ mariadb_root_passwd: 'passwd'
 mariadb_home: '/srv/mariadb'
 
 host_mariadb_zfs_dataset: '{{ host_srv_dataset }}/mariadb'
-host_mariadb_home: '{{ host_srv_dir }}/mariadb'
-
+host_mariadb_zfs_dir: '{{ host_srv_dir }}/mariadb'

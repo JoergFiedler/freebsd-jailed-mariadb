@@ -17,37 +17,21 @@ There is a Vagrant Box with providers for VirtualBox and EC2 you may use. You wi
 Role Variables
 --------------
 
-##### jail_net_ip
-
-The jail's ip address. No default value.
-
-##### jail_net_if
-
-The interface to which the jail's ip address is added. Default: `'lo0'`.
-
-##### jail_name
-
-The jail's name. Local part of the hostname. Default: `'{{ jail_net_ip }}'`.
-
-##### jail_domain
-
-The domain this jail belongs to. Domain part of the hostname. Default: `'darkcity'`.
-
 ##### mariadb_root_passwd
 
 The root password that should be used to secure the MariaDB installation. Default: `'passwd'`.
 
 ##### mariadb_home
 
-The directory in which MariaDB should store is files. Default: `'/home/mariadb'`.
+The directory in which MariaDB should store is files. Default: `'/srv/mariadb'`.
 
 ##### host_mariadb_zfs_dataset
 
 The ZFS dataset to use for MariaDB. If it does not exist it will be created. Make sure the pool already exists. Default: `'tank/mariadb'`.
 
-##### host_mariadb_home
+##### host_mariadb_zfs_dir
 
-The directory on the host file system where the ZFS dataset is going to be mounted. Default: `'/home/mariadb'`.
+The directory on the host file system where the ZFS dataset is going to be mounted. Default: `'/srv/mariadb'`.
 
 Dependencies
 ------------
