@@ -17,7 +17,7 @@ Role Variables
 
 ##### mariadb_root_passwd
 
-The hashed root password that should be used to secure the MariaDB installation. The default password is `passwd` you may want to change that. Default: `'*59c70da2f3e3a5bdf46b68f5c8b8f25762bccef0'`.
+The hashed root password that should be used to secure the MariaDB installation. The default password is `passwd` you may want to change that. Default: `'59c70da2f3e3a5bdf46b68f5c8b8f25762bccef0'`.
 
 ##### mariadb_home
 
