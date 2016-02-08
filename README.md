@@ -3,9 +3,7 @@ freebsd-jailed-mariadb
 
 This role provides a jailed MariaDB server.
 
-You may configure the MariaDb server using the `my.cnf` you will find in the `templates` folder.
-
-The role creates a ZFS dataset on an existing pool and mounts it to the jail. It is used to store the MariaDB database files.
+You may configure the MariaDb server using `my.cnf` file which you will find in the `templates` folder.
 
 Requirements
 ------------
@@ -19,7 +17,7 @@ Role Variables
 
 ##### mariadb_root_passwd
 
-The root password that should be used to secure the MariaDB installation. Default: `'passwd'`.
+The hashed root password that should be used to secure the MariaDB installation. The default password is `passwd` you may want to change that. Default: `'59c70da2f3e3a5bdf46b68f5c8b8f25762bccef0'`.
 
 ##### mariadb_home
 

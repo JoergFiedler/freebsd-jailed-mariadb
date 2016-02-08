@@ -1,6 +1,6 @@
 ---
 # defaults file for freebsd-jailed-mariadb
-mariadb_root_passwd: 'passwd'
+mariadb_root_passwd: '*59c70da2f3e3a5bdf46b68f5c8b8f25762bccef0'
 mariadb_home: '/srv/mariadb'
 
 host_mariadb_zfs_dataset: '{{ host_srv_dataset }}/mariadb'
