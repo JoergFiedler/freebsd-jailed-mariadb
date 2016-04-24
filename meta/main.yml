@@ -15,5 +15,6 @@ galaxy_info:
   - ec2
   - mariadb
   - db
+allow_duplicates: yes
 dependencies:
 - { role: JoergFiedler.freebsd-jailed }
