@@ -13,7 +13,9 @@
 - name: Ensure mysql user permissions
   file: path={{ host_mariadb_zfs_dir }}{{ item.path }}
         state=directory
-        owner=88 group=88 mode=0750
+        owner=88
+        group=88
+        mode=0750
   with_items:
   - '{{ mariadb_datasets }}'
 
@@ -64,7 +66,7 @@
             src=my.cnf.j2
             owner=88 group=88 mode=0640
   notify:
-  - Restart {{ jail_name }} MariaDB
+  - Restart jail s MariaDB
 
 - name: Start jail
   command: /usr/local/sbin/iocage start {{ jail_uuid.stdout }}
@@ -97,4 +99,4 @@
 - name: Backup MariaDB with tarsnap
   template: src=tarsnapper.yml.j2
             dest=/usr/local/etc/tarsnapper.d/{{ jail_name }}.yml
-  when: tarsnap_keyfile is defined
+  when: tarsnap_enabled | default(false)
