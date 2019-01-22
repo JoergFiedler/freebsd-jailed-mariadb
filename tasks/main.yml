@@ -1,8 +1,8 @@
 ---
 # tasks file for freebsd-jailed-mariadb
-- include: pf.yml
+- include_tasks: pf.yml
   tags:
     - mariadb
-- include: mariadb.yml
+- include_tasks: mariadb.yml
   tags:
     - mariadb

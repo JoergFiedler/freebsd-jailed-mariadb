@@ -1,7 +1,10 @@
+{{ ansible_managed | comment }}
+
 [mysqld]
 bind-address              = {{ jail_net_ip }}
 innodb_data_home_dir      = {{ mariadb_home }}/ibdata
 innodb_log_group_home_dir = {{ mariadb_home }}/iblog
+innodb_buffer_pool_size   = 134217728
 skip-innodb_doublewrite
 collation-server          = utf8_unicode_ci
 init-connect              = 'SET NAMES utf8'

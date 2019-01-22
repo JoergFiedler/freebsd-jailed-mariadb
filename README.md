@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/JoergFiedler/freebsd-jailed-mariadb.svg?branch=master)](https://travis-ci.org/JoergFiedler/freebsd-jailed-mariadb)
 freebsd-jailed-mariadb
 =========
 
@@ -12,8 +13,6 @@ Requirements
 
 This role is intent to be used with a fresh FreeBSD installation.
 
-There is a Vagrant Box with providers for VirtualBox and EC2 you may use. You will find a sample project which uses this role [here](https://github.com/JoergFiedler/freebsd-ansible-demo).
-
 Role Variables
 --------------
 
@@ -24,6 +23,10 @@ The root password that should be used to secure the MariaDB installation. Defaul
 ##### mariadb_home
 
 The directory in which MariaDB should store is files. Default: `'/srv/mariadb'`.
+
+##### mariadb_server_pkg
+
+The package name of the server package (which version to install). Default `'mariadb103-server'`.
 
 ##### host_mariadb_zfs_dataset
 
@@ -36,17 +39,24 @@ The directory on the host file system where the ZFS dataset is going to be mount
 Dependencies
 ------------
 
-- [JoergFiedler.freebsd-jailed](https://galaxy.ansible.com/detail#/role/6599)
+- [JoergFiedler.freebsd-jailed](https://galaxy.ansible.com/joergfiedler/freebsd-jailed)
 
 Example Playbook
 ----------------
 
-    - { role: /Users/john/projects/freebsd-jailed-mariadb,
-        tags: ['mariadb'],
-        use_ssmtp: true,
-        use_syslogd_server: true,
-        jail_name: 'mariadb',
-        jail_net_ip: '10.1.0.4' }¬
+    - hosts: all
+      become: true
+    
+      vars:
+        ansible_python_interpreter: '/usr/local/bin/python2.7'
+    
+      tasks:
+        - include_role:
+            name: 'JoergFiedler.freebsd-jailed-mariadb'
+          vars:
+            jail_freebsd_release: '11.2-RELEASE'
+            jail_name: 'mariadb'
+            jail_net_ip: '10.1.0.10'
 
 License
 -------

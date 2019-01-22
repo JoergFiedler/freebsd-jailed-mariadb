@@ -1,0 +1,24 @@
+dist: xenial
+language: python
+python: 2.7
+install:
+- wget https://releases.hashicorp.com/vagrant/2.2.2/vagrant_2.2.2_x86_64.deb
+- sudo dpkg -i vagrant_2.2.2_x86_64.deb
+- pip install -r .requirements.txt
+before_script:
+- vagrant plugin install vagrant-aws
+- ssh-keygen -y -f ~/.vagrant.d/insecure_private_key > ~/.vagrant.d/insecure_private_key.pub
+- ln -s ./ JoergFiedler.freebsd-jailed-mariadb
+script:
+- ansible-lint .
+- yamllint .
+- ansible-galaxy install -p ./ -r .requirements.yml
+- vagrant box add JoergFiedler/FreeBSD-11.2 --provider aws
+- vagrant up --provider aws
+- vagrant ssh -c "nc -vvv -t -z -w 3 10.1.0.10 3306"
+after_script:
+- vagrant destroy -f
+env:
+  global:
+  - secure: RdcRETOdsSCuTO9TT7kVRF+No3mnieQdp3cGaa2wMT4jxOkfsJZErBXKkR6g2refta2PRjG0sTbN2iGYTqhxQ8AhC61R3qv22kQseQcdGWsvUwtbQNAT6+irE8PXCfG+qDdGMevR+ZrmW80SBpU5tWrD773ubGGYmcjB7j14vdyfYMBhFxZA9hXDhAXQDWfiGFOGILKyyi91zpZ2XThzxfKIQIIShfSlVQ4fCfbN/U8T1DhJiOsxFNQ635g15qq+7xCveunP1vPR3HnR3nk8rzsasIkkQh2lAJJ+CnqwIgmxB6zExjT20MtwGIXnl0HUOPumvh/SJDNyfEYdvRl2I+Z7Zd+jqCIJHTDmpk51SiiG/DynEhBY9IxPC6H5UuhH45Pm8+aZ7sRQCm6ysXeCbofi8w+DA2LnvUP0iQDfF1jgkVDRdjwjQzkX1UQuaM1Gdnap3QMMoDqevHwuSoBfwybKBbGFUlNiPclsdCEVnIirblIOEQMM493zisR1F6mdM2oGmwRQLrPYTftkJabcLUhnJGJ97ZjWn6N8jbx6LkqRqt4WZLt+ckOS7Fg9rMA+ZpaXp660rpPL+uoGXw2tk5N2PB1rl/V90tIoKqPHxycZixALZBigTUHA15v9fe1zb3xoQTXJFG7RggAr3MiWwuUMvrhEuMLOeXb2drG+4aA=
+  - secure: wqcUnd+95Kf+eEcfjuytOgc+1NkOb+Idoa59hK/Cg6f079fw/JxNa5GM5dXqvqai571ww7Rd6ycrLoVIQxFOeovbdaorQ6pPd1pqVxOVcQ1DxjQbUDQt/2Gd3GibaC3S8o5V2MIhXEKakalW+fSgwMmeNug7oSijA5wxHWQMudzrh4jY5BNDWVk6rt2WpRD5fyTVbZNxgnzdbegeHPzYrwbBEdldbO5i+I0tRHJjlMDXrtZrr6Gu3G9q/bhw7qjmkPLr3LU3Bkwe//hZ2zx2QSyDdT0Ka5gqoO9q5nINxDLccgYd1AEtN5pOpA8Ab4vbUd6Bw8C+nFW1gMQ99rcPo6ZIPFT0BmAC709X1YRmE+QuXGKigK5uJqeGdyGWQBEdQ1eK/78WuYTN4DjSSxEoApB/AF8ZQxuXj5E64JqZeQIfQMhqaTJnMEsEt3L6LnFksA30vRzCUfUuQVH4rQ1+6NPCRyMJnZHkNlJsfbF69ZQNEacl4QSqa+JQjSM5qdoOZZ+Fbl2xFlJeHfd4/L69VREonOoyaDhFDXohXjO5VTXg6oFoP4ht4OKPCDGwatK2bhqK83hirehopNZhzgsc3QUj+m6Pc1OMrz8RKCqseXNOo2cND+m9rhWckannzhyFbZtz9sOqyPXwgda4qG1PbhzzCFkRAIeBDzJgeTak3Is=
