@@ -1,6 +1,7 @@
-[![Build Status](https://travis-ci.org/JoergFiedler/freebsd-jailed-mariadb.svg?branch=master)](https://travis-ci.org/JoergFiedler/freebsd-jailed-mariadb)
 freebsd-jailed-mariadb
 =========
+
+[![Build Status](https://travis-ci.org/JoergFiedler/freebsd-jailed-mariadb.svg?branch=master)](https://travis-ci.org/JoergFiedler/freebsd-jailed-mariadb)
 
 This role provides a jailed MariaDB server.
 
