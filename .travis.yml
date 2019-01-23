@@ -18,6 +18,9 @@ script:
 - vagrant ssh -c "nc -vvv -t -z -w 3 10.1.0.10 3306"
 after_script:
 - vagrant destroy -f
+notifications:
+  webhooks:
+    - https://galaxy.ansible.com/api/v1/notifications/
 env:
   global:
   - secure: RdcRETOdsSCuTO9TT7kVRF+No3mnieQdp3cGaa2wMT4jxOkfsJZErBXKkR6g2refta2PRjG0sTbN2iGYTqhxQ8AhC61R3qv22kQseQcdGWsvUwtbQNAT6+irE8PXCfG+qDdGMevR+ZrmW80SBpU5tWrD773ubGGYmcjB7j14vdyfYMBhFxZA9hXDhAXQDWfiGFOGILKyyi91zpZ2XThzxfKIQIIShfSlVQ4fCfbN/U8T1DhJiOsxFNQ635g15qq+7xCveunP1vPR3HnR3nk8rzsasIkkQh2lAJJ+CnqwIgmxB6zExjT20MtwGIXnl0HUOPumvh/SJDNyfEYdvRl2I+Z7Zd+jqCIJHTDmpk51SiiG/DynEhBY9IxPC6H5UuhH45Pm8+aZ7sRQCm6ysXeCbofi8w+DA2LnvUP0iQDfF1jgkVDRdjwjQzkX1UQuaM1Gdnap3QMMoDqevHwuSoBfwybKBbGFUlNiPclsdCEVnIirblIOEQMM493zisR1F6mdM2oGmwRQLrPYTftkJabcLUhnJGJ97ZjWn6N8jbx6LkqRqt4WZLt+ckOS7Fg9rMA+ZpaXp660rpPL+uoGXw2tk5N2PB1rl/V90tIoKqPHxycZixALZBigTUHA15v9fe1zb3xoQTXJFG7RggAr3MiWwuUMvrhEuMLOeXb2drG+4aA=
