@@ -9,12 +9,14 @@ galaxy_info:
       versions:
         - 11.2
   galaxy_tags:
+    - cloud
+    - db
+    - ec2
     - freebsd
     - jails
-    - cloud
-    - ec2
     - mariadb
-    - db
+    - system
+    - web
 allow_duplicates: yes
 dependencies:
   - JoergFiedler.freebsd-jailed
