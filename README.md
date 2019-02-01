@@ -31,11 +31,11 @@ The package name of the server package (which version to install). Default `'mar
 
 ##### host_mariadb_zfs_dataset
 
-The ZFS dataset to use for MariaDB. If it does not exist it will be created. Make sure the pool already exists. Default: `'tank/mariadb'`.
+The ZFS dataset to use for MariaDB. If it does not exist it will be created. Make sure the pool already exists. Default: `'{{ host_srv_dataset }}/mariadb'`.
 
 ##### host_mariadb_zfs_dir
 
-The directory on the host file system where the ZFS dataset is going to be mounted. Default: `'/srv/mariadb'`.
+The directory on the host file system where the ZFS dataset is going to be mounted. Default: `'{{ host_srv_dir }}/mariadb'`.
 
 Dependencies
 ------------
