@@ -53,6 +53,8 @@ Example Playbook
     
       tasks:
         - import_role:
+            name: 'JoergFiedler.freebsd-jail-host'
+        - import_role:
             name: 'JoergFiedler.freebsd-jailed-mariadb'
           vars:
             jail_freebsd_release: '11.2-RELEASE'
