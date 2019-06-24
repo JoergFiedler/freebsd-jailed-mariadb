@@ -1,6 +1,8 @@
 ---
 # defaults file for freebsd-jailed-mariadb
 mariadb_home: '/srv/mariadb'
+mariadb_backup_user: 'no_root_user'
+mariadb_backup_user_passwd: 'passwd'
 mariadb_root_passwd: 'passwd'
 mariadb_server_pkg: 'mariadb103-server'
 

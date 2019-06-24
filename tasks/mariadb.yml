@@ -124,3 +124,23 @@
     src: 'tarsnapper.yml.j2'
     dest: '/usr/local/etc/tarsnapper.d/{{ jail_name }}.yml'
   when: tarsnap_enabled | default(false)
+
+- name: Copy MariaDB backup script
+  template:
+    backup: '{{ jail_backup_old_files }}'
+    src: 'backup-db.j2'
+    dest: '{{ jail_home.stdout }}/usr/local/sbin/backup-db'
+    mode: 0700
+
+- name: Create cron.d folder
+  file:
+    path: '{{ jail_home.stdout  }}/usr/local/etc/cron.d/'
+    state: directory
+    mode: 0755
+
+- name: Backup MariaDB regulary
+  template:
+    backup: '{{ jail_backup_old_files }}'
+    src: 'backup-db.cron.j2'
+    dest: '{{ jail_home.stdout  }}/usr/local/etc/cron.d/backup-db'
+    mode: 0600

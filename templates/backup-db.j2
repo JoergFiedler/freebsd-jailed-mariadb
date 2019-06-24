@@ -1,0 +1,19 @@
+#!/bin/sh
+
+USER={{ mariadb_backup_user }}
+PASSWD={{ mariadb_backup_user_passwd }}
+DIR={{ mariadb_home }}
+
+databases=$(mysql --user=${USER} --password=${PASSWD} -e 'show databases;' | grep -vi 'mysql\|schema\|Database')
+
+for db in ${databases}
+do
+  mysqldump \
+    --user=$USER \
+    --password=$PASSWD \
+    --single-transaction \
+    --flush-logs \
+    --add-drop-table \
+    --databases $db | /usr/bin/bzip2 > $DIR/$db.sql.bz2
+    chmod 600 $DIR/$db.sql.bz2
+done

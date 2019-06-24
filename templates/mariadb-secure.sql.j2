@@ -14,4 +14,7 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'{{ jail_net_ip }}' IDENTIFIED BY '{{ mari
 -- set root password
 UPDATE mysql.user SET password=PASSWORD('{{ mariadb_root_passwd }}') WHERE user='root';
 
+-- create read-only user for backups
+grant SELECT, RELOAD on *.* to '{{ mariadb_backup_user }}'@'%' identified by '{{ mariadb_backup_user_passwd }}';
+
 FLUSH PRIVILEGES;

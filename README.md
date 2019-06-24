@@ -21,6 +21,14 @@ Role Variables
 
 The root password that should be used to secure the MariaDB installation. Default: `'passwd'`.
 
+##### mariadb_backup_user
+
+The user name for backup user. It has read permissions to all databases to perform backup. Database content is stored in `{{ mariadb_home }}` folder. On file per database. The file is zipped. Default: `'no_root_user'`
+
+##### mariadb_backup_user_passwd
+
+The password for backup user. Default: `'passwd'`
+
 ##### mariadb_home
 
 The directory in which MariaDB should store is files. Default: `'/srv/mariadb'`.
