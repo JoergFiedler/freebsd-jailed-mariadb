@@ -14,6 +14,8 @@ do
     --single-transaction \
     --flush-logs \
     --add-drop-table \
-    --databases $db | /usr/bin/bzip2 > $DIR/$db.sql.bz2
+    --databases $db \
+    > $DIR/$db.sql
+    /usr/bin/bzip2 -f $DIR/$db.sql
     chmod 600 $DIR/$db.sql.bz2
 done
