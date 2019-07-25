@@ -1,4 +1,11 @@
 ---
+- name: Unmount devfs
+  command: |
+    umount {{ jail_home.stdout }}/dev
+  args:
+    warn: False
+  when: not jail_started.changed
+
 - name: Restart jail s MariaDB
   command: |
     /usr/local/bin/iocage exec {{ jail_name }} service mysql-server restart
