@@ -36,6 +36,19 @@
     state: present
   loop: '{{ mariadb_datasets }}'
 
+- name: Check for devfs within jail chroot
+  stat:
+    path: '{{ jail_home.stdout }}/dev/null'
+  register: dev_null
+
+- name: Mount devfs within jail chroot
+  command: |
+    mount -t devfs -o ruleset=2 devfs {{ jail_home.stdout }}/dev
+  args:
+    warn: false
+  when: dev_null.stat.exists == false
+  register: dev_null_mounted
+
 - name: Install MariaDB binary package
   pkgng:
     name: '{{ mariadb_server_pkg }}'
@@ -43,6 +56,13 @@
     chroot: '{{ jail_home.stdout }}'
   register: pkg_result
   until: pkg_result is succeeded
+
+- name: Unmount devfs within jail chroot
+  command: |
+    umount {{ jail_home.stdout }}/dev
+  args:
+    warn: false
+  when: dev_null_mounted.changed
 
 - name: Enable MariaDb service
   lineinfile:
