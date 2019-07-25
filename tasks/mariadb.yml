@@ -15,8 +15,8 @@
   file:
     path: '{{ host_mariadb_zfs_dir }}{{ item.path }}'
     state: directory
-    owner: 88
-    group: 88
+    owner: '88'
+    group: '88'
     mode: '0750'
   loop: '{{ mariadb_datasets }}'
 
@@ -99,8 +99,8 @@
     backup: '{{ jail_backup_old_files }}'
     dest: '{{ host_mariadb_zfs_dir }}/data/my.cnf'
     src: 'my.cnf.j2'
-    owner: 88
-    group: 88
+    owner: '88'
+    group: '88'
     mode: '0640'
   notify:
   - Restart jail s MariaDB
