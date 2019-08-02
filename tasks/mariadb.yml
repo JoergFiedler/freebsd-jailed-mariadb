@@ -99,12 +99,6 @@
   notify:
   - Restart jail s MariaDB
 
-- name: Start jail
-  command: |
-    iocage start {{ jail_name }}
-  when: jail_created is changed
-  register: jail_started
-
 - name: Check if database is secured
   command: |
     iocage exec {{ jail_name }} \
