@@ -99,6 +99,11 @@
   notify:
   - Restart jail s MariaDB
 
+- name: Start MariaDB
+  command: |
+    iocage exec {{ jail_name }} service mysql-server start
+  when: jail_created
+
 - name: Check if database is secured
   command: |
     iocage exec {{ jail_name }} \
