@@ -1,4 +1,17 @@
 ---
+- name: Install MariaDB binary package
+  pkgng:
+    name: '{{ mariadb_server_pkg }}'
+    state: present
+    chroot: '{{ jail_home.stdout }}'
+  register: pkg_result
+  until: pkg_result is succeeded
+
+- name: Stop MariaDB jail
+  command: |
+    /usr/local/bin/iocage stop -i {{ jail_name }}
+  when: jail_created
+
 - name: Create ZFS data sets
   zfs:
     name: '{{ host_mariadb_zfs_dataset }}{{ item.path }}'
@@ -9,6 +22,16 @@
       logbias: '{{ item.logbias }}'
       recordsize: '{{ item.recordsize }}'
       mountpoint: '{{ host_mariadb_zfs_dir }}{{ item.path }}'
+  loop: '{{ mariadb_datasets }}'
+
+- name: Configure jail to mount file system from host
+  mount:
+    name: '{{ jail_home.stdout }}{{ mariadb_home }}{{ item.path }}'
+    fstab: '{{ jail_home.stdout }}/../fstab'
+    fstype: 'nullfs'
+    opts: 'rw'
+    src: '{{ host_mariadb_zfs_dir }}{{ item.path }}'
+    state: present
   loop: '{{ mariadb_datasets }}'
 
 - name: Ensure mysql user permissions
@@ -25,38 +48,6 @@
     path: '{{ jail_home.stdout }}{{ mariadb_home }}{{ item.path }}'
     state: directory
   loop: '{{ mariadb_datasets }}'
-
-- name: Configure jail to mount file system from host
-  mount:
-    name: '{{ jail_home.stdout }}{{ mariadb_home }}{{ item.path }}'
-    fstab: '{{ jail_home.stdout }}/../fstab'
-    fstype: 'nullfs'
-    opts: 'rw'
-    src: '{{ host_mariadb_zfs_dir }}{{ item.path }}'
-    state: present
-  loop: '{{ mariadb_datasets }}'
-
-- name: Check for devfs within jail chroot
-  stat:
-    path: '{{ jail_home.stdout }}/dev/null'
-  register: dev_null
-
-- name: Mount devfs within jail chroot
-  command: |
-    mount -t devfs -o ruleset=2 devfs {{ jail_home.stdout }}/dev
-  args:
-    warn: false
-  when: not dev_null.stat.exists
-  notify:
-    - Unmount devfs
-
-- name: Install MariaDB binary package
-  pkgng:
-    name: '{{ mariadb_server_pkg }}'
-    state: present
-    chroot: '{{ jail_home.stdout }}'
-  register: pkg_result
-  until: pkg_result is succeeded
 
 - name: Enable MariaDb service
   lineinfile:
@@ -99,9 +90,9 @@
   notify:
   - Restart jail s MariaDB
 
-- name: Start MariaDB
+- name: Start MariaDB jail
   command: |
-    iocage exec {{ jail_name }} service mysql-server start
+    /usr/local/bin/iocage start {{ jail_name }}
   when: jail_created
 
 - name: Check if database is secured
