@@ -66,7 +66,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 echo 'pass all keep state' >> /etc/pf.conf
 echo pf_enable=YES >> /etc/rc.conf
 echo pflog_enable=YES >> /etc/rc.conf
-echo 'firstboot_pkgs_list=\"awscli sudo bash python27\"' >> /etc/rc.conf
+echo 'firstboot_pkgs_list=\"awscli sudo\"' >> /etc/rc.conf
 mkdir -p /usr/local/etc/sudoers.d
 /usr/sbin/service pf start
 echo 'ec2-user ALL=(ALL) NOPASSWD: ALL' >> /usr/local/etc/sudoers.d/ec2-user"
