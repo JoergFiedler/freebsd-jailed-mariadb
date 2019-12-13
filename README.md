@@ -57,17 +57,18 @@ Example Playbook
       become: true
     
       vars:
-        ansible_python_interpreter: '/usr/local/bin/python2.7'
+        ansible_python_interpreter: '/usr/local/bin/python3.6'
+        host_ioc_release_version: '11.3-RELEASE'
     
       tasks:
         - import_role:
             name: 'JoergFiedler.freebsd-jail-host'
-        - import_role:
+        - include_role:
             name: 'JoergFiedler.freebsd-jailed-mariadb'
           vars:
-            jail_freebsd_release: '11.2-RELEASE'
-            jail_name: 'mariadb'
             jail_net_ip: '10.1.0.10'
+            jail_name: 'mariadb'
+            jail_freebsd_release: '{{ host_ioc_release_version }}'
 
 License
 -------

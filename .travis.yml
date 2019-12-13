@@ -13,7 +13,7 @@ script:
 - ansible-lint .
 - yamllint .
 - ansible-galaxy install -p ./ -r .requirements.yml
-- vagrant box add JoergFiedler/FreeBSD-11.2 --provider aws
+- vagrant box add JoergFiedler/FreeBSD-11.3 --provider aws
 - vagrant up --provider aws
 - vagrant ssh -c "nc -vvv -t -z -w 3 10.1.0.10 3306"
 after_script:
