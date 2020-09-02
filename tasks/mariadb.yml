@@ -10,7 +10,7 @@
 - name: Stop MariaDB jail
   command: |
     /usr/local/bin/iocage stop -i {{ jail_name }}
-  when: jail_created
+  when: jail_created is changed
 
 - name: Create ZFS data sets
   zfs:
@@ -93,7 +93,7 @@
 - name: Start MariaDB jail
   command: |
     /usr/local/bin/iocage start {{ jail_name }}
-  when: jail_created
+  when: jail_created is changed
 
 - name: Check if database is secured
   command: |
