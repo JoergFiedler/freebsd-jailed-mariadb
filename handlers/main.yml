@@ -1,5 +1,5 @@
 ---
-- name: Restart jail s MariaDB
+- name: Restart {{ jail_name }} MariaDB
   command: |
     /usr/local/bin/iocage exec {{ jail_name }} service mysql-server restart
   when: not jail_created is changed
