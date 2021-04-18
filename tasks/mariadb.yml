@@ -88,7 +88,7 @@
     group: '88'
     mode: '0640'
   notify:
-  - Restart jail s MariaDB
+  - Restart {{ jail_name }} MariaDB
 
 - name: Start MariaDB jail
   command: |
